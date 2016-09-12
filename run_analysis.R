@@ -2,10 +2,12 @@
 #Download files 
 ######
 
+
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 df <- file.path(getwd(), "Dataset.zip")  
 download.file(fileUrl,df)
 unzip(zipfile = "C:/Users/odyai/Desktop/Data Science/getting and cleaning data/Dataset.zip", exdir="C:/Users/odyai/Desktop/Data Science/getting and cleaning data")
+
 
 #######
 #Create a vector variable which lists text documents. 
@@ -14,6 +16,7 @@ unzip(zipfile = "C:/Users/odyai/Desktop/Data Science/getting and cleaning data/D
 dirData <- file.path("C:/Users/odyai/Desktop/Data Science/getting and cleaning data","UCI HAR Dataset")
 files<- list.files(dirData,recursive=TRUE)
 files
+
 
 ########
 # read in data from files
@@ -46,8 +49,9 @@ features_data <- rbind(features_train, features_test)
 
 names(activity_data) <- c("activity")
 names(subject_data) <- c("subject")
-features_names <- read.table(file.path(dirData, "features.txt"),head=FALSE)
+features_names <- read.table(file.path(dirData, "features.txt"),head=FALSE) 
 names(features_data) <- features_names$V2
+
 
 ######
 # MERGE train and test datasets with cbind()
@@ -55,6 +59,7 @@ names(features_data) <- features_names$V2
 
 sub_act <- cbind(subject_data, activity_data)
 final_data_set <- cbind(features_data, sub_act)
+
 
 #######
 # EXTRACT mean and standard deviation on each measurement
@@ -64,6 +69,7 @@ data_mean_std <- features_names$V2[grep("mean\\(\\)|std\\(\\)",features_names$V2
 
 selectedNames <- c(as.character(data_mean_std), "activity", "subject" )
 final_data_set <- subset(final_data_set, select=selectedNames)
+
 
 #######
 # Substitute descriptive variable names for clearer analysis and understanding
@@ -84,3 +90,36 @@ head(features_names)
 tail(features_names)
 str(final_data_set)      # validate mean and std were taken
 dim(final_data_set)
+
+
+#######
+# creates a secon, independent tidy data set with the average of each variable for each activity and each subject.
+#######
+
+library(plyr)
+final_data_set_2 <- aggregate(. ~subject + activity, final_data_set, mean)
+final_data_set_2 <- final_data_set_2[order(final_data_set_2$subject,final_data_set_2$activity),]
+
+write.table(final_data_set_2, file = "tidy_data.txt",row.name=FALSE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
