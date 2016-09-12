@@ -1,0 +1,30 @@
+Coursera: Getting and Cleaning Data- project
+CODE BOOK:
+
+The R-Script run_analysis.R is used to complete the following tasks listed in the course project: 
+•	Merges the training and the test sets to create one data set: used rbind() to merge test and train data sets;  Then, from the columns, the mean and standard deviation measures were extracted from the  dataset and given names, extracted from the features.txt file. 
+•	Uses descriptive activity names to name the activities in the data set; with gsub()
+•	Appropriately labels the data set with descriptive variable names. 
+•	From the new data set, creates a second, independent tidy data set with the average of each variable for each activity and each subject and save it into new file: tidy_data.txt
+
+Variables 
+
+Activity_test, activity_train, subject_test, subject_train, features_test, features_train, and activityType contain the data from the zipped files. 
+Activity_data, subject_data and features_data merge the test and train data sets
+features_names associates the descriptive variable names within the features text and applies it to features_data. 
+sub_act combines the columns contained within the subject_data and activity_data datasets 
+final_data_set is the total complete data set used prior to extracting the mean and standard deviations 
+library(plyr) loads plyr package into R, used for combining and ordering final data set; tidy_data.txt
+final_data_set_2 contains the tidy data set, written into the tidy_data.txt file. 
+
+
+
+
+•	
+•	x_data, y_data and subject_data merge the previous datasets to further analysis.
+•	features contains the correct names for the x_data dataset, which are applied to the column names stored in mean_and_std_features, a numeric vector used to extract the desired data.
+•	A similar approach is taken with activity names through the activities variable.
+•	all_data merges x_data, y_data and subject_data in a big dataset.
+•	Finally, averages_data contains the relevant averages which will be later stored in a .txt file. ddply() from the plyr package is used to apply colMeans() and ease the development.
+
+
